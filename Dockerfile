@@ -1,22 +1,14 @@
 FROM fedora:23
 MAINTAINER Fatima
 
-RUN dnf -y update
-RUN dnf -y install wget
-RUN dnf -y install tar
-RUN dnf -y install java-1.8.0-openjdk.x86_64
-RUN wget http://apache.mediamirrors.org//jmeter/binaries/apache-jmeter-3.0.tgz
-RUN tar -xvzf apache-jmeter-3.0.tgz
-RUN rm -f apache-jmeter-3.0.tgz
-RUN rm -fr /apache-jmeter-3.0/docs
-RUN mkdir results
-COPY *.jmx ./
-COPY *.csv ./
-
-#la commande VOLUME crée un dossier partagé dans le système hote
-# de cette façon, le fichier de résultat sera enregistré sur le système hote
-# et non dans le container
-VOLUME /apache-jmeter-3.0/bin/results
-
-CMD ["/apache-jmeter-3.0/bin/jmeter", "-n", "-t", $(JMX_FILE), "-l", "/results/tests_results.jtl", "-H", "localhost", "-P", "5000"]
+RUN dnf -y install git python-pip
+RUN python3 -m pip install -U pip
+RUN pip3 install flask
+RUN pip3 install flask_script
+RUN pip3 install flask_bootstrap
+RUN pip3 install flask_moment
+RUN pip3 install flask_wtf
+RUN mkdir -p /home/devWORKDIR /home/dev
+RUN git clone https://github.com/astondevops/web_server_flask.gitEXPOSE 5000WORKDIR /home/dev/web_server_flask
+ENTRYPOINT ["python3","hello.py","runserver"]
 
