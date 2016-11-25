@@ -2,6 +2,7 @@ FROM fedora:23
 MAINTAINER Fatima
 
 RUN dnf -y install git python-pip
+
 RUN python3 -m pip install -U pip
 RUN pip3 install flask
 RUN pip3 install flask_script
