@@ -3,8 +3,8 @@ from flask_script import Manager
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_wtf import Form
-from wtforms import StringField, SubmitField
-from wtforms.validators import Required
+from wtforms import FloatField, SubmitField
+from wtforms.validators import InputRequired, DataRequired
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'hard to guess string'
@@ -15,8 +15,9 @@ moment = Moment(app)
 
 
 class NameForm(Form):
-    name = StringField('Entrez votre nom?', validators=[Required()])
-    submit = SubmitField('Submit')
+    valeur1 = FloatField('valeur 1 : ', validators=[InputRequired("Entrez une valeur")])
+    valeur2 = FloatField('valeur 2 : ', validators=[InputRequired("Entrez une valeur")])
+    submit = SubmitField('Calculer')
 
 
 @app.errorhandler(404)
@@ -33,10 +34,12 @@ def internal_server_error(e):
 def index():
     form = NameForm()
     if form.validate_on_submit():
-        session['name'] = form.name.data
+        value_format= "{:.2f}".format(form.valeur1.data / form.valeur2.data)
+        session['result'] = value_format
         return redirect(url_for('index'))
-    return render_template('index.html', form=form, name=session.get('name'))
+    return render_template('index.html', form=form, result=session.get('result'))
 
 
 if __name__ == '__main__':
     manager.run()
+
