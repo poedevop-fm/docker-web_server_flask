@@ -1,7 +1,7 @@
 FROM fedora:23
 
 RUN dnf -y update \
-    && dnf -y install git python-pip \
+    #&& dnf -y install git python-pip \
     && python3 -m pip install -U pip \
     && dnf clean all
 
