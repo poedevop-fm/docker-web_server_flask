@@ -11,7 +11,8 @@ RUN pip3 install flask_moment
 RUN pip3 install flask_wtf
 RUN mkdir -p /home/dev
 WORKDIR /home/dev
-RUN git clone https://github.com/astondevops/web_server_flask.git
+#RUN git clone https://github.com/astondevops/web_server_flask.git
+RUN https://github.com/poedevop-fm/docker-web_server_flask.git
 EXPOSE 5000
 WORKDIR /home/dev/web_server_flask
 ENTRYPOINT ["python3","hello.py","runserver"]
